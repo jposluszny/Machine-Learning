@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis Tool</title>
+    <style>
+        /* Center the application on the page */
+        .container { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            max-width: 500px; 
+            margin: 50px auto; 
+            padding: 20px;
+        }
+
+        /* Essential setting: Ensures all elements have the exact same width */
+        textarea, 
+        input[type="submit"], 
+        .result {
+            width: 100%;            /* Spans full width of the container */
+            display: block;         /* Stack elements vertically */
+            box-sizing: border-box; /* Padding and border included in width */
+            margin-bottom: 15px;    /* Consistent vertical spacing */
+            border-radius: 4px;     /* Rounded corners for modern look */
+        }
+
+        /* Textarea styling */
+        textarea { 
+            height: 120px; 
+            padding: 12px; 
+            border: 1px solid #ccc;
+            font-size: 14px;
+            resize: vertical;       /* Allow vertical scaling only to keep layout intact */
+        }
+
+        /* Submit button styling with transition */
+        input[type="submit"] { 
+            background-color: #007bff; 
+            color: white; 
+            border: none; 
+            padding: 12px; 
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer; 
+            /* Smooth background color change over 0.3 seconds */
+            transition: background-color 0.3s ease; 
+        }
+
+        /* Darken button on hover */
+        input[type="submit"]:hover { 
+            background-color: #0056b3; 
+        }
+
+        /* Result box styling */
+        .result { 
+            padding: 15px; 
+            border: 2px solid;      /* Border color is injected dynamically from Flask */
+            text-align: center;     /* Center the classification text */
+            background-color: #fcfcfc;
+            font-weight: 500;
+        }
+
+        h1 { text-align: center; color: #333; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Review Classifier</h1>
+        
+        <form action="{{ url_for('index') }}" method="POST">
+            <label for="review">Your Review:</label>
+            
+            <textarea id="review" name="review" placeholder="Enter your review here...">{{ review_text if                    review_text }}</textarea>
+            
+            <input type="submit" value="Analyze Sentiment">
+        </form>
+
+        {# Jinja2 conditional block: Only display result box if classification exists #}
+        {% if classification %}
+        <div class="result" style="color: {{ color }}; border-color: {{ color }};">
+            {{ classification }}
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
